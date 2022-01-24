@@ -1,0 +1,17 @@
+name: "."
+title: "mfeo"
+theme: postcards.css
+description: |
+  mfeo
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+    - text: "Blog"      # add
+      href: blog.html   # add
+    - text: "Sachiko"              
+      href: sachiko.html 
+output: distill::distill_article
