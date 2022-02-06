@@ -1,10 +1,15 @@
 ---
-title: "About this site"
+title: "About Me"
 description: |
   Some additional details about the website
+image: "1574833155838.jpg"
+
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(here)
+
 ```
+![text](here("1574833155838.jpg"))
 
