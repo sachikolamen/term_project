@@ -1,7 +1,7 @@
 ---
-title: "welcome"
+title: "Pics"
 description: |
-  A short description of the post.
+  Here are some pictures of things I enjoy doing and places I've been
 author:
   - name: Sachiko Lamen
 date: 2022-01-23
@@ -13,10 +13,32 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(png)
+library(here)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
+```{r}
+mola_person <- readPNG(here("pics", "molaperson.png"))
+dive <- readPNG(here("pics", "dive.png"))
+mola <- readPNG(here("pics", "mola.png"))
+manta2<- readPNG(here("pics", "manta2.png"))
+cactus <- readPNG(here("pics", "cactus.png"))
+```
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+```{r}
+dive
+```
+
+```{r}
+mola
+mola_person
+manta2
+```
+
+```{r}
+cactus
+```
+
 
 

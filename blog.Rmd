@@ -1,5 +1,4 @@
 --
-title: "I dont know whats going on"  
+title: "First Blog Post" 
 listing: posts 
 --
-*llama noises*

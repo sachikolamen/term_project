@@ -1,20 +1,17 @@
 ---
-title: "mfeo"
-description: |
-  Welcome to the website. I hope you enjoy it!
+title: "Sachiko Lamen"
 site: distill::distill_website
+image: "1574833155838.jpg"
+links:
+  - label: LinkedIn
+    url: "https://www.linkedin.com/in/sachiko-lamen-7b4346176/"
+  - label: GitHub
+    url: "https://github.com/sachikolamen"
+  - label: Email
+    url: "mailto:sachikolamen@bren.ucsb.edu"
+output:
+  postcards::trestles
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-library(distill)
-library(postcards)
-library(rmarkdown)
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
-
-# Learn more about publishing to GitHub Pages at:
-# https://rstudio.github.io/distill/publish_website.html#github-pages
-
-```
+I am a masters student at the Bren School of Environmental Science & Management specializing in Coastal Marine Resource Management. I am interested in researching community-based methods of fisheries management and spatial conservation planning. I hope to pursue a career working with coastal communities to help develop incentive- and science-based solutions that empower communities to take control of their resources and economic development.
 

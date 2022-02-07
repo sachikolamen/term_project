@@ -1,15 +1,59 @@
 ---
 title: "About Me"
 description: |
-  Some additional details about the website
-image: "1574833155838.jpg"
 
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(here)
-
 ```
-![text](here("1574833155838.jpg"))
+
+When I'm not in school or working I love to be outside surfing, freediving, skiing, hiking, and traveling. Check out some pictures of my latest adventures below!
+
+![](pics/mola.png), ![Swimming with a massive mola in the Santa Barbara Channel](pics/molaperson.png)
+
+*Swimming with a massive mola in the Santa Barbara Channel*
+
+![Being a cactus in Baja](pics/cactus.png)
+*Being a cactus in Baja*
+
+![](pics/surfdry.png)
+*One of many oceanfront campsites in Baja*
+
+![Sunrise dive on Catalina Island](pics/dive.png)
+*Sunrise dive on Catalina Island*
+
+![](pics/bromofog.png)
+![](pics/bromo.png)
+
+![](pics/hike.png)
+*Hiking the crater at Mt. Bromo in Java, Indonesia*
+
+![](pics/goats.png)
+*Beach goats!*
+
+![](pics/ziggy.png)
+*My dog Ziggy*
+
+![](pics/manta1.png)
+![](pics/manta2.png)
+*Swimming with giant mantas*
+
+![](pics/bison.png)
+*A bison on the backside of Catalina Island*
+
+![](pics/freedive.png)
+*Hunting for some fish*
+
+![](pics/monkey.png)
+*A momma monkey and her baby*
+
+![](pics/malang.png)
+*Rainbow town of Malang*
+
+
+
+
+
+
 

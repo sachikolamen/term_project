@@ -1,8 +1,7 @@
 name: "."
-title: "mfeo"
+title: "Sachiko Lamen"
 theme: postcards.css
-description: |
-  mfeo
+description: "something add here"
 output_dir: "docs"
 navbar:
   right:
@@ -10,8 +9,6 @@ navbar:
       href: index.html
     - text: "About Me"
       href: about.html
-    - text: "Blog"      # add
-      href: blog.html   # add
-    - text: "Sachiko"              
-      href: sachiko.html 
+    - text: "Blog"     
+      href: blog.html 
 output: distill::distill_article

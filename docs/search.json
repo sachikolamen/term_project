@@ -3,31 +3,22 @@
     {
       "path": "about.html",
       "title": "About Me",
-      "description": "Some additional details about the website\n",
       "author": [],
-      "contents": "\ntext\n\n\n",
-      "last_modified": "2022-02-05T18:39:08-08:00"
+      "contents": "\nWhen I’m not in school or working I love to be outside surfing, freediving, skiing, hiking, and traveling. Check out some pictures of my latest adventures below!\n, \nSwimming with a massive mola in the Santa Barbara Channel\nBeing a cactus in Baja\nOne of many oceanfront campsites in Baja\nSunrise dive on Catalina Island\n\nHiking the crater at Mt. Bromo in Java, Indonesia\nBeach goats!\nMy dog Ziggy\nSwimming with giant mantas\nA bison on the backside of Catalina Island\nHunting for some fish\nA momma monkey and her baby\nRainbow town of Malang\n\n\n\n",
+      "last_modified": "2022-02-07T14:40:31-08:00"
     },
     {
       "path": "blog.html",
       "author": [],
-      "contents": "\ntitle: “I dont know whats going on”\nlisting: posts\nllama noises\n\n\n\n",
-      "last_modified": "2022-02-05T18:39:08-08:00"
+      "contents": "\ntitle: “First Blog Post”\nlisting: posts\n\n\n\n",
+      "last_modified": "2022-02-07T14:11:38-08:00"
     },
     {
       "path": "index.html",
-      "title": "mfeo",
-      "description": "Welcome to the website. I hope you enjoy it!\n",
-      "author": [],
-      "contents": "\n\n\n\n",
-      "last_modified": "2022-02-05T18:39:09-08:00"
-    },
-    {
-      "path": "sachiko.html",
       "title": "Sachiko Lamen",
       "author": [],
-      "contents": "\n\n          \n          \n          mfeo\n          \n          \n          Home\n          About Me\n          Blog\n          Sachiko\n          ☰\n          \n          \n      \n        \n          \n            \n              \n            \n              Sachiko Lamen\n            \n            \n              \n                \n                    \n                      \n                        LinkedIn\n                      \n                    \n                  \n                                    \n                    \n                      \n                        GitHub\n                      \n                    \n                  \n                                    \n                    \n                      \n                        Email\n                      \n                    \n                  \n                                  \n            \n          \n        \n        \n        \n          \n            I am a masters student at the Bren School of Environmental Science & Management specializing in Coastal Marine Resource Management. I am interested in researching community-based methods of fisheries management and spatial conservation planning. I hopes to pursue a career working with coastal communities to help develop incentive- and science-based solutions that empower communities to take control of their resources and economic development.\n          \n        \n      \n    \n\n    \n      \n        \n          \n            \n              \n            \n              Sachiko Lamen\n            \n            \n              \n                \n                                    \n                    \n                      LinkedIn\n                    \n                  \n                                    \n                    \n                      GitHub\n                    \n                  \n                                    \n                    \n                      Email\n                    \n                  \n                                  \n              \n            \n            \n              I am a masters student at the Bren School of Environmental Science & Management specializing in Coastal Marine Resource Management. I am interested in researching community-based methods of fisheries management and spatial conservation planning. I hopes to pursue a career working with coastal communities to help develop incentive- and science-based solutions that empower communities to take control of their resources and economic development.\n            \n        \n      \n    \n\n    \n    \n    ",
-      "last_modified": "2022-02-05T18:39:09-08:00"
+      "contents": "\n\n          \n          \n          Sachiko Lamen\n          \n          \n          Home\n          About Me\n          Blog\n          ☰\n          \n          \n      \n        \n          \n            \n              \n            \n              Sachiko Lamen\n            \n            \n              \n                \n                    \n                      \n                        LinkedIn\n                      \n                    \n                  \n                                    \n                    \n                      \n                        GitHub\n                      \n                    \n                  \n                                    \n                    \n                      \n                        Email\n                      \n                    \n                  \n                                  \n            \n          \n        \n        \n        \n          \n            I am a masters student at the Bren School of Environmental Science & Management specializing in Coastal Marine Resource Management. I am interested in researching community-based methods of fisheries management and spatial conservation planning. I hope to pursue a career working with coastal communities to help develop incentive- and science-based solutions that empower communities to take control of their resources and economic development.\n          \n        \n      \n    \n\n    \n      \n        \n          \n            \n              \n            \n              Sachiko Lamen\n            \n            \n              \n                \n                                    \n                    \n                      LinkedIn\n                    \n                  \n                                    \n                    \n                      GitHub\n                    \n                  \n                                    \n                    \n                      Email\n                    \n                  \n                                  \n              \n            \n            \n              I am a masters student at the Bren School of Environmental Science & Management specializing in Coastal Marine Resource Management. I am interested in researching community-based methods of fisheries management and spatial conservation planning. I hope to pursue a career working with coastal communities to help develop incentive- and science-based solutions that empower communities to take control of their resources and economic development.\n            \n        \n      \n    \n\n    \n    \n    ",
+      "last_modified": "2022-02-07T14:11:38-08:00"
     }
   ],
   "collections": ["posts/posts.json"]
