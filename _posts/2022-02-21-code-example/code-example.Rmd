@@ -1,0 +1,96 @@
+---
+title: "Mono Lake"
+description: |
+  Graphical analysis of historical lake level measurments with superimposed policy milestones.
+author:
+  - name: Sachiko Lamen
+    url: 
+date: 2022-02-21
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include = TRUE}
+knitr::opts_chunk$set(echo = TRUE, messages = FALSE, warning = FALSE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(plotly)
+library(ggnewscale)
+library("png")
+library("grid")
+```
+
+```{r, message = FALSE, warning = FALSE}
+# read in data, remove metadata rows, rename columns
+mono <- read_csv(here("data", "mono_lake_annual_levels.csv"), col_names = FALSE, skip = 6) %>%
+  rename(year = X1, lake_level = X2, stable_level = X3, volume = X4, surface_area = X5, vert_change = X6)
+
+# import plot background image
+lake_image <- readPNG(here("data", "Mono_Lake_from_Mount_Dana_(1).png"))
+
+# create graph of lake level change from 1850 - 2017, label important milestones
+ggplot(data = mono, aes(x = year, y = lake_level)) +
+  scale_fill_continuous(guide = "none") + 
+  annotation_custom(rasterGrob(lake_image, 
+                               width = unit(1,"npc"), 
+                               height = unit(1,"npc")), 
+                    -Inf, Inf, -Inf, Inf) +
+  geom_ribbon(data = mono %>% filter(lake_level <= 6392),
+              aes(ymin = lake_level, ymax = 6392), 
+              fill = "firebrick1", alpha = 0.5) +
+  geom_line() +
+  geom_hline(yintercept = 6392, linetype = "dashed", color = "red") +
+  geom_hline(yintercept = 6377, linetype = "dashed", color = "orange") +
+  geom_hline(yintercept = 6360, linetype = "dashed", color = "grey") +
+  annotate(
+    geom = "curve", x = 1935, y = 6412, xend = 1941, yend = 6417, 
+    curvature = .3, arrow = arrow(length = unit(2, "mm")),
+    color = "white"
+  ) +
+  annotate(geom = "text", x = 1934, y = 6409.5, label = "DWP begins 
+  diverting water", size = 3, hjust = "right", color = "white") +
+  annotate(geom = "point", x = 1941, y = 6417, color = "yellow", size = 2, alpha = 0.5) +
+  annotate(
+    geom = "curve", x = 1963, y = 6370, xend = 1979, yend = 6373.4, 
+    curvature = .1, arrow = arrow(length = unit(2, "mm")),
+    color = "white"
+  ) +
+  annotate(geom = "text", x = 1962, y = 6370, label = "MLC sues DWP", size = 3, hjust = "right", color = "white") +
+  annotate(geom = "point", x = 1979, y = 6373.4, color = "yellow", size = 2, alpha = 0.5) +
+   annotate(
+    geom = "curve", x = 1979, y = 6394.1, xend = 1983, yend = 6378.6, 
+    curvature = .3, arrow = arrow(length = unit(2, "mm")),
+    color = "white"
+  ) +
+  annotate(geom = "text", x = 1971, y = 6395, label = "Supreme Court rules
+           in favor of MLC", size = 3, hjust = "left", color = "white") +
+  annotate(geom = "point", x = 1983, y = 6378.6, color = "yellow", size = 2, alpha = 0.5) +
+   annotate(
+    geom = "curve", x = 1985, y = 6365, xend = 1994, yend = 6374.6, 
+    curvature = .3, arrow = arrow(length = unit(2, "mm")),
+    color = "white"
+  ) +
+  annotate(geom = "text", x = 1985, y = 6364.9, label = "Decision 1631", size = 3, hjust = "right", color = "white") +
+  annotate(geom = "point", x = 1994, y = 6374.6, color = "yellow", size = 2, alpha = 0.5) +
+  annotate(geom = "text", x = 1850, y = 6394, label = "Stable Level", size = 3.5, hjust = "left", color ="red") +
+  annotate(
+    geom = "curve", x = 2005, y = 6370, xend = 1998, yend = 6384.3, 
+    curvature = .1, arrow = arrow(length = unit(2, "mm")),
+    color = "white"
+  ) +
+  annotate(geom = "point", x = 1998, y = 6384.3, colour = "yellow", size = 2, alpha = 0.5) +
+  annotate(geom = "text", x = 2011, y = 6366.9, label = "Restoration orders
+issued by state", size = 3, hjust = "center", color = "white") +
+  annotate(geom = "text", x = 1850, y = 6379, label = "Land bridges emerge", size = 3.5, hjust = "left", color ="orange") +
+  annotate(geom = "text", x = 1850, y = 6362, label = "Salinity 120 g/L", size = 3.5, hjust = "left", color ="grey") +
+    labs(x = "Year",
+         y = "Lake Level (ft above sea level)",
+         title = "Mono Lake level changes (1850 - 2017)")
+  
+
+```
+
+**Figure 1. Mono Lake Historical Lake Level (1850 - 2017)** Annual observations of Mono Lake level (ft above sea level) are tracked by the black line. The red dashed line represents the stable level (6392 ft) designated by the State Water Board that the DWP is required to restore Mono Lake to. The orange dashed line represents the lake level at which land bridges are exposed (6379 ft), making critical shorebird nesting sites vulnerable to terrestrial predators. The grey dashed line represents the lake level where the salinity of the water reaches 120 g/L (6360 ft); critical food resources for aquatic birds would be negatively affected at this level of salinity and acutely impacted at concentrations higher than 150 g/L (<6350 ft). (**DWP**: Los Angeles Department of Water and Power, **MLC**: Mono Lake Committee, **Decision 1631**: mandated that Mono Lake be allowed to rise to 6392 ft above sea level and set water export rules for DWP depending on current lake level, **Restoration Orders 98-05 and 98-07**: mandated raising Mono Lake to 6392 ft and improving existing freshwater ponds for migrating birds)
+

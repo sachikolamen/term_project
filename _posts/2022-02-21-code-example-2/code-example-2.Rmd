@@ -1,0 +1,191 @@
+---
+title: "Predicting Lizard Weight"
+description: |
+  A non linear least squares (NLS) analysis is used to estimate parameters of predictive model.
+author:
+  - name: Sachiko Lamen
+    url:
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include= FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(purrr)
+library(here)
+library(Metrics)
+library(nlshelper)
+library(janitor)
+library(kableExtra)
+```
+
+### **Overview**
+
+This code uses non linear least squares (NLS) to estimate parameters of a length to weight model (see below) for lizard populations in New Mexico. \begin{equation}W = a(SVL)^b\end{equation} Where W = weight (g), SVL = snout to vent length (mm), a and b are parameters that need to be fitted. Estimated parameters were tested on general predictive ability across all lizards regardless of sex, species, or age and species specific predictive ability using male Cnemidophorus tigrisatus as the species of interest. Data used in this analysis comes from lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site from 1989 - 2006.
+
+```{r}
+# Read in data
+lizards <- read_csv("/Users/sachiko/Desktop/BREN/Winter Quarter/ESM 244 - Adv. Data Analysis/HW/Assignment_2/data/lizard.csv")
+
+# Create clean version of data
+lizards_clean <- lizards %>%
+  select(spp:weight) %>%
+  clean_names()
+lizards_clean$spp = tolower(lizards_clean$spp)
+lizards_clean$sex = tolower(lizards_clean$sex)
+```
+
+### **General Model**
+
+The following section estimates the parameters of a length to weight model for the general population of lizards, regardless of sex or species.
+
+```{r, message = FALSE}
+# create function
+lizards_model <- function(a, SVL, b) {
+  W = a*SVL^b
+  return(W)
+}
+
+# Log transform data because model is exponential
+log_lizards <- lizards_clean %>%
+  mutate(sv_length_log = log(sv_length)) %>%
+  mutate(weight_log = log(weight))
+
+# Create model to be used to guess parameter values
+guess_model <- lm(weight_log ~ sv_length_log, data = log_lizards) 
+
+# Generate coefficients to be used for NLS start list
+coef <-coefficients(guess_model)
+
+# From above, we see that parameter b can be estimated at 2.54. Need to calculate parameter "a" by transforming intercept.
+lizard_nls <- nls(weight ~ lizards_model(a, sv_length, b),
+                  data = lizards_clean,
+                  start = list(
+                    a = 2.718^(coef[1]/coef[2]),
+                    b = coef[2]),
+                    trace = FALSE)
+
+# NLS model kable output for html
+nls_tidy <- tidy(lizard_nls) 
+
+nls_tidy$p.value <- ifelse(nls_tidy$p.value <0.001, paste("<0.001"))
+```
+
+```{r}
+nls_tidy %>%
+  select(-statistic) %>%
+  kable(col.names = c("Parameter", "Estimate", "Std. Error", "P-Value"),
+        caption = "**Table 1. General Model Parameter Estimates.** P-values for both parameter values are <0.001") %>% 
+  kable_styling(bootstrap_options = "striped",
+                position = "left", full_width = FALSE)
+```
+
+```{r}
+# Find model predicted values
+predicted_weight <- predict(lizard_nls)
+
+# Create new dataframe that binds predictions to main dataframe
+lizards_final <- data.frame(lizards_clean, predicted_weight) %>%
+  mutate(sex = case_when(sex == "f" ~ "Female",
+            sex == "m" ~ "Male"))
+
+# Plot fitted model
+ggplot(data = lizards_final, aes(x = sv_length, y = predicted_weight)) +
+  geom_point(aes(x = sv_length, y = weight, color = sex)) +
+  scale_color_manual(values = c("blue", "green")) +
+  geom_line(color = "red") +
+  theme_minimal() +
+  labs(x = "Snout-Vent Length (mm)",
+       y = "Weight (g)",
+       title = "General Model Fit") +
+  theme(legend.title = element_blank())
+```
+
+**Figure 1.** Snout-vent length (mm) is compared to weight (g) across all species of lizards. Green and blue data points represent male and female lizards, respectively. The red line is the fitted non-linear least squares model used to predict the weight of a lizard as a function of snout-vent length.
+
+From Figure 1, we see that this general model predicts lizard weight relatively well, meaning that the estimated parameter values provide a good basis for this general model. To further investigate the fit of this model, a species specific look at model fit is conducted using male Western Whiptail lizards (Cnemidophorus tigrisatus) as the species of interest.
+
+### **Species-specific model**
+
+The following section estimates the parameters of a length to weight model for a male Western Whiptail population of lizards. Then a visual comparison of general and species-specific models are shown and RMSE values are calculated and compared.
+
+```{r}
+# Filter dataset for male Western Whiptail lizards (Cnemidophorus tigrisatus)
+whip_subset <- lizards_clean %>%
+  filter(spp == "cnti", sex == "m")
+
+whip_log <- log_lizards %>%
+  filter(spp == "cnti", sex == "m")
+
+# Create model that will be used to generate guess coefficients
+whip_guess_model <- lm(weight_log ~ sv_length_log, data = whip_log) 
+
+# Generate coefficients to be used for NLS start list
+whip_coef <-coefficients(whip_guess_model)
+
+
+whip_nls <- nls(weight ~ lizards_model(a, sv_length, b),
+                  data = whip_subset,
+                  start = list(
+                    a = 2.718^(whip_coef[1]/whip_coef[2]),
+                    b = whip_coef[2]),
+                    trace = FALSE)
+
+# NLS model kable output for html
+whip_nls_tidy <- tidy(whip_nls) %>%
+  mutate(new_p_value = case_when(p.value < 0.001 ~ "<0.001",
+                                 p.value > 0.001 ~ paste(round(p.value, 3))))
+
+whip_nls_tidy %>%
+  select(-statistic, -p.value) %>%
+  kable(col.names = c("Parameter", "Estimate", "Std. Error", "P-Value"),
+        caption = "**Table. 2. Species-Specific Model Parameter Estimates.** The p-value for parameter a is 0.219, p-value for parameter b is <0.001**") %>% 
+  kable_styling(bootstrap_options = "striped",
+                position = "left", full_width = FALSE)
+```
+
+```{r}
+# Add column with predicted values to dataframe
+whip_predict <- predict(whip_nls)
+
+whip_final <- data.frame(whip_subset, whip_predict) %>%
+  mutate(sex = case_when(sex == "f" ~ "Female",
+            sex == "m" ~ "Male"))
+
+# Select for cnti and male in lizards_final so that data sets will have same # of observations
+compare <- lizards_final %>%
+  filter(spp == "cnti", sex == "Male")
+
+# Bind together whip_final and lizards_final
+compare_final <- data.frame(compare, whip_final)
+
+# Graph both model fits on male western whiptail data
+ggplot(data = compare_final) +
+  geom_point(aes(x = sv_length, y = weight)) +
+  geom_line(aes(x = sv_length, y = whip_predict, 
+                color = "Whiptail Model")) +
+  geom_line(aes(x = sv_length, y = predicted_weight,
+                color = "General Model")) +
+  scale_color_manual(values = c("Whiptail Model" = "purple",
+                                "General Model" = "red")) +
+  theme_minimal() +
+  labs(x = "Snout-Vent Length (mm)",
+       y = "Weight (g)",
+       title = "Model Fit Comparison") +
+  theme(legend.title = element_blank())
+
+
+whip_rmse <- rmse(compare_final$weight, compare_final$whip_predict)
+lizard_rmse <- rmse(compare_final$weight, compare_final$predicted_weight)
+
+```
+
+**Figure 2.** Snout-vent length (mm) is compared to weight (g) for male Western Whiptail lizards. The purple line represents the fit of the Whiptail species-specific model and the red line represents the fit of a general lizards fitted non-linear least squares model.
+
+From Figure 2, we see that the species-specific model and general model are similar in fit for making species-specific predictions. Comparison of RMSE values show that the species-specific model has slightly better fit with RMSE of `r round(whip_rmse, 2)` that is smaller compared to the general model RMSE of `r round(lizard_rmse, 2)`. If we are interested in predicting Western Whiptail weight then the species-specific model would perform better than the general model.
+
+### **Citation**
+
+Lightfoot, D. and W.G. Whitford. 2020. Lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site, 1989-2006 ver 37. Environmental Data Initiative. <https://doi.org/10.6073/pasta/4a6e258fb49c31e222ecbbcfd128967f>

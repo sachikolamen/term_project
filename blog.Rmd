@@ -1,6 +1,4 @@
 ---
-title: "Snowshoe Hare Analysis" 
-listing: posts 
-  - 2022-01-23-welcome
+title: "Code Examples"  # any name you want here
+listing: posts # do this exactly
 ---
-
