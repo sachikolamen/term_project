@@ -1,6 +1,6 @@
 name: "."
 title: "Sachiko Lamen"
-theme: postcards.css
+theme: custom.css
 description: "something add here"
 output_dir: "docs"
 navbar:
