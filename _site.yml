@@ -9,6 +9,10 @@ navbar:
       href: index.html
     - text: "About Me"
       href: about.html
-    - text: "Blog"     
-      href: blog.html 
+    - text: "Code Examples"     
+      href: blog.html
 output: distill::distill_article
+
+
+# <a href = 'name of pdf'Click here for PDF </a>
+# <a href = 'name of pdf' target = '_blank'> Click here for PDF </a>

@@ -1,4 +1,6 @@
---
-title: "First Blog Post" 
+---
+title: "Snowshoe Hare Analysis" 
 listing: posts 
---
+  - 2022-01-23-welcome
+---
+
