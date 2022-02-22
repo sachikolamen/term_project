@@ -5,21 +5,28 @@
       "title": "About Me",
       "author": [],
       "contents": "\nWhen I’m not in school or working I love to be outside surfing, freediving, skiing, hiking, and traveling. Check out some pictures of my latest adventures below!\n, \nSwimming with a massive mola in the Santa Barbara Channel\nBeing a cactus in Baja\nOne of many oceanfront campsites in Baja\nSunrise dive on Catalina Island\n\nHiking the crater at Mt. Bromo in Java, Indonesia\nBeach goats!\nMy dog Ziggy\nSwimming with giant mantas\nA bison on the backside of Catalina Island\nHunting for some fish\nA momma monkey and her baby\nRainbow town of Malang\n\n\n\n",
-      "last_modified": "2022-02-21T20:08:59-08:00"
+      "last_modified": "2022-02-21T20:23:51-08:00"
     },
     {
       "path": "blog.html",
       "title": "Snowshoe Hare Analysis",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-02-21T20:09:00-08:00"
+      "last_modified": "2022-02-21T20:23:52-08:00"
+    },
+    {
+      "path": "custom.html",
+      "title": "Tobi Burns",
+      "author": [],
+      "contents": "\n\n          \n          \n          Sachiko Lamen\n          \n          \n          Home\n          About Me\n          Code Examples\n          ☰\n          \n          \n      \n        \n          \n            Tobi Burns\n          \n          \n            \n              I am a classically trained data scientist living in the San Francisco Bay Area. Currently I work on the Oculus team at Facebook. I love talking about baseball, true crime podcasts, and causal inference.\n            \n            \n              I am a classically trained data scientist living in the San Francisco Bay Area. Currently I work on the Oculus team at Facebook. I love talking about baseball, true crime podcasts, and causal inference.\n            \n          \n\n          \n            \n              \n                  \n                    \n                      LinkedIn\n                    \n                  \n                \n                                \n                  \n                    \n                      Twitter\n                    \n                  \n                \n                                \n                  \n                    \n                      GitHub\n                    \n                  \n                \n                                \n                  \n                    \n                      Email\n                    \n                  \n                \n                              \n          \n\n          \n            \n              \n                                \n                  \n                    LinkedIn\n                  \n                \n                                \n                  \n                    Twitter\n                  \n                \n                                \n                  \n                    GitHub\n                  \n                \n                                \n                  \n                    Email\n                  \n                \n                              \n            \n          \n        \n      \n    \n\n    \n    \n    ",
+      "last_modified": "2022-02-21T20:23:52-08:00"
     },
     {
       "path": "index.html",
       "title": "Sachiko Lamen",
       "author": [],
       "contents": "\n\n          \n          \n          Sachiko Lamen\n          \n          \n          Home\n          About Me\n          Code Examples\n          ☰\n          \n          \n      \n        \n          \n            \n              \n            \n              Sachiko Lamen\n            \n            \n              \n                \n                    \n                      \n                        LinkedIn\n                      \n                    \n                  \n                                    \n                    \n                      \n                        GitHub\n                      \n                    \n                  \n                                    \n                    \n                      \n                        Email\n                      \n                    \n                  \n                                  \n            \n          \n        \n        \n        \n          \n            I am a masters student at the Bren School of Environmental Science & Management specializing in Coastal Marine Resource Management. I am interested in researching community-based methods of fisheries management and spatial conservation planning. I hope to pursue a career working with coastal communities to help develop incentive- and science-based solutions that empower communities to take control of their resources and economic development.\n          \n        \n      \n    \n\n    \n      \n        \n          \n            \n              \n            \n              Sachiko Lamen\n            \n            \n              \n                \n                                    \n                    \n                      LinkedIn\n                    \n                  \n                                    \n                    \n                      GitHub\n                    \n                  \n                                    \n                    \n                      Email\n                    \n                  \n                                  \n              \n            \n            \n              I am a masters student at the Bren School of Environmental Science & Management specializing in Coastal Marine Resource Management. I am interested in researching community-based methods of fisheries management and spatial conservation planning. I hope to pursue a career working with coastal communities to help develop incentive- and science-based solutions that empower communities to take control of their resources and economic development.\n            \n        \n      \n    \n\n    \n    \n    ",
-      "last_modified": "2022-02-21T20:09:00-08:00"
+      "last_modified": "2022-02-21T20:23:53-08:00"
     }
   ],
   "collections": ["posts/posts.json", "posts - 2022-01-23-welcome/posts - 2022-01-23-welcome.json"]
