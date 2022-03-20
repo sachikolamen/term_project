@@ -93,8 +93,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2022-02-21"/>
-  <meta property="article:created" itemprop="dateCreated" content="2022-02-21"/>
+  <meta property="article:published" itemprop="datePublished" content="2022-03-17"/>
+  <meta property="article:created" itemprop="dateCreated" content="2022-03-17"/>
   <meta name="article:author" content="Sachiko Lamen"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -112,7 +112,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Predicting Lizard Weight"]},{"type":"character","attributes":{},"value":["A non linear least squares (NLS) analysis is used to estimate parameters of predictive model.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Sachiko Lamen"]},{"type":"NULL"}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["02-21-2022"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Predicting Lizard Weight"]},{"type":"character","attributes":{},"value":["A non linear least squares (NLS) analysis is used to estimate parameters of predictive model.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Sachiko Lamen"]},{"type":"NULL"}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["03-17-2022"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1461,7 +1461,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Predicting Lizard Weight","description":"A non linear least squares (NLS) analysis is used to estimate parameters of predictive model.","authors":[{"author":"Sachiko Lamen","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-02-21T00:00:00.000-08:00","citationText":"Lamen, 2022"}
+{"title":"Predicting Lizard Weight","description":"A non linear least squares (NLS) analysis is used to estimate parameters of predictive model.","authors":[{"author":"Sachiko Lamen","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-03-17T00:00:00.000-07:00","citationText":"Lamen, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1480,31 +1480,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-byline">
   Sachiko Lamen  
   
-<br/>02-21-2022
+<br/>03-17-2022
 </div>
 
 <div class="d-article">
 <h3 id="overview"><strong>Overview</strong></h3>
-<p>This code uses non linear least squares (NLS) to estimate parameters of a length to weight model (see below) for lizard populations in New Mexico. <span class="math display">\[\begin{equation}W = a(SVL)^b\end{equation}\]</span> Where W = weight (g), SVL = snout to vent length (mm), a and b are parameters that need to be fitted. Estimated parameters were tested on general predictive ability across all lizards regardless of sex, species, or age and species specific predictive ability using male Cnemidophorus tigrisatus as the species of interest. Data used in this analysis comes from lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site from 1989 - 2006.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Read in data</span>
-<span class='va'>lizards</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"/Users/sachiko/Desktop/BREN/Winter Quarter/ESM 244 - Adv. Data Analysis/HW/Assignment_2/data/lizard.csv"</span><span class='op'>)</span>
-
-<span class='co'># Create clean version of data</span>
-<span class='va'>lizards_clean</span> <span class='op'>&lt;-</span> <span class='va'>lizards</span> <span class='op'><a href='https://purrr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>spp</span><span class='op'>:</span><span class='va'>weight</span><span class='op'>)</span> <span class='op'><a href='https://purrr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/clean_names.html'>clean_names</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>lizards_clean</span><span class='op'>$</span><span class='va'>spp</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span><span class='op'>(</span><span class='va'>lizards_clean</span><span class='op'>$</span><span class='va'>spp</span><span class='op'>)</span>
-<span class='va'>lizards_clean</span><span class='op'>$</span><span class='va'>sex</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span><span class='op'>(</span><span class='va'>lizards_clean</span><span class='op'>$</span><span class='va'>sex</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
+<p>This code uses non linear least squares (NLS) to estimate parameters of a length to weight model (see below) for lizard populations in New Mexico. <span class="math display">\[\begin{equation}W = a(SVL)^b\end{equation}\]</span> Where W = weight (g), SVL = snout to vent length (mm), a and b are parameters that need to be fitted. Estimated parameters were tested on general predictive ability across all lizards regardless of sex, species, or age and species specific predictive ability using male Cnemidophorus tigrisatus as the species of interest. Data used in this analysis comes from lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site from 1989 - 2006. See code for annotations.</p>
 <h3 id="general-model"><strong>General Model</strong></h3>
-<p>The following section estimates the parameters of a length to weight model for the general population of lizards, regardless of sex or species.</p>
+<p>To start, let’s estimate the parameters of a length to weight model for the general population of lizards, regardless of sex or species.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># create function</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># We need to create a function to be used for NLS</span>
 <span class='va'>lizards_model</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>SVL</span>, <span class='va'>b</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>W</span> <span class='op'>=</span> <span class='va'>a</span><span class='op'>*</span><span class='va'>SVL</span><span class='op'>^</span><span class='va'>b</span>
   <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>W</span><span class='op'>)</span>
@@ -1535,10 +1525,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span class='va'>nls_tidy</span><span class='op'>$</span><span class='va'>p.value</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>nls_tidy</span><span class='op'>$</span><span class='va'>p.value</span> <span class='op'>&lt;</span><span class='fl'>0.001</span>, <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"&lt;0.001"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>nls_tidy</span> <span class='op'><a href='https://purrr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Create visually appealing table for knitted document using kableExtra</span>
+<span class='va'>nls_tidy</span> <span class='op'><a href='https://purrr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>statistic</span><span class='op'>)</span> <span class='op'><a href='https://purrr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Parameter"</span>, <span class='st'>"Estimate"</span>, <span class='st'>"Std. Error"</span>, <span class='st'>"P-Value"</span><span class='op'>)</span>,
         caption <span class='op'>=</span> <span class='st'>"**Table 1. General Model Parameter Estimates.** P-values for both parameter values are &lt;0.001"</span><span class='op'>)</span> <span class='op'><a href='https://purrr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
@@ -1546,6 +1542,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
                 position <span class='op'>=</span> <span class='st'>"left"</span>, full_width <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 <table class="table table-striped" style="width: auto !important; ">
 <caption>
 <span id="tab:unnamed-chunk-3">Table 1: </span><strong>Table 1. General Model Parameter Estimates.</strong> P-values for both parameter values are &lt;0.001
@@ -1599,11 +1596,15 @@ b
 </table>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Find model predicted values</span>
 <span class='va'>predicted_weight</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>lizard_nls</span><span class='op'>)</span>
 
-<span class='co'># Create new dataframe that binds predictions to main dataframe</span>
+<span class='co'># Create a new dataframe that binds predictions to the main dataframe</span>
 <span class='va'>lizards_final</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>lizards_clean</span>, <span class='va'>predicted_weight</span><span class='op'>)</span> <span class='op'><a href='https://purrr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>sex <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='va'>sex</span> <span class='op'>==</span> <span class='st'>"f"</span> <span class='op'>~</span> <span class='st'>"Female"</span>,
             <span class='va'>sex</span> <span class='op'>==</span> <span class='st'>"m"</span> <span class='op'>~</span> <span class='st'>"Male"</span><span class='op'>)</span><span class='op'>)</span>
@@ -1620,13 +1621,18 @@ b
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>legend.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 <p><img src="code-example-2_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
 <p><strong>Figure 1.</strong> Snout-vent length (mm) is compared to weight (g) across all species of lizards. Green and blue data points represent male and female lizards, respectively. The red line is the fitted non-linear least squares model used to predict the weight of a lizard as a function of snout-vent length.</p>
 <p>From Figure 1, we see that this general model predicts lizard weight relatively well, meaning that the estimated parameter values provide a good basis for this general model. To further investigate the fit of this model, a species specific look at model fit is conducted using male Western Whiptail lizards (Cnemidophorus tigrisatus) as the species of interest.</p>
 <h3 id="species-specific-model"><strong>Species-specific model</strong></h3>
-<p>The following section estimates the parameters of a length to weight model for a male Western Whiptail population of lizards. Then a visual comparison of general and species-specific models are shown and RMSE values are calculated and compared.</p>
+<p>Lets generate the parameters of a length to weight model for a male Western Whiptail population of lizards. Then we can do a visual comparison of general and species-specific models. We can also calculate and compare RMSE values to see which model is a better fit.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Filter dataset for male Western Whiptail lizards (Cnemidophorus tigrisatus)</span>
 <span class='va'>whip_subset</span> <span class='op'>&lt;-</span> <span class='va'>lizards_clean</span> <span class='op'><a href='https://purrr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
@@ -1662,6 +1668,7 @@ b
                 position <span class='op'>=</span> <span class='st'>"left"</span>, full_width <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 <table class="table table-striped" style="width: auto !important; ">
 <caption>
 <span id="tab:unnamed-chunk-5">Table 2: </span><strong>Table. 2. Species-Specific Model Parameter Estimates.</strong> The p-value for parameter a is 0.219, p-value for parameter b is &lt;0.001**
@@ -1715,6 +1722,10 @@ b
 </table>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Add column with predicted values to dataframe</span>
 <span class='va'>whip_predict</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>whip_nls</span><span class='op'>)</span>
@@ -1746,12 +1757,18 @@ b
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>legend.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 <img src="code-example-2_files/figure-html5/unnamed-chunk-6-1.png" width="624" />
+<details>
+<summary>
+Show code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>whip_rmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Metrics/man/rmse.html'>rmse</a></span><span class='op'>(</span><span class='va'>compare_final</span><span class='op'>$</span><span class='va'>weight</span>, <span class='va'>compare_final</span><span class='op'>$</span><span class='va'>whip_predict</span><span class='op'>)</span>
 <span class='va'>lizard_rmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Metrics/man/rmse.html'>rmse</a></span><span class='op'>(</span><span class='va'>compare_final</span><span class='op'>$</span><span class='va'>weight</span>, <span class='va'>compare_final</span><span class='op'>$</span><span class='va'>predicted_weight</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <p><strong>Figure 2.</strong> Snout-vent length (mm) is compared to weight (g) for male Western Whiptail lizards. The purple line represents the fit of the Whiptail species-specific model and the red line represents the fit of a general lizards fitted non-linear least squares model.</p>
 <p>From Figure 2, we see that the species-specific model and general model are similar in fit for making species-specific predictions. Comparison of RMSE values show that the species-specific model has slightly better fit with RMSE of 3.35 that is smaller compared to the general model RMSE of 3.56. If we are interested in predicting Western Whiptail weight then the species-specific model would perform better than the general model.</p>

@@ -1,0 +1,156 @@
+---
+title: "CA Oil Spills 2008"
+description: |
+  Choropleth and interactive maps of oil spill incidents across CA in 2008.
+author:
+  - name: Sachiko Lamen
+    url: {}
+date: 2022-03-17
+output:
+  distill::distill_article:
+    self_contained: false
+    code_folding: TRUE
+---
+
+---
+title: "CA Oil Spills 2008"
+author: "Sachiko Lamen"
+date: "3/1/2022"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, include= FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(here)
+library(broom)
+library(sf) 
+library(tmap) 
+library(janitor)
+library(spatstat)
+library(maptools)
+library(raster)
+library(tidyverse)
+```
+
+
+### Overview:
+This code creates maps depicting location and number of oil spills in each county in California in 2008. A G-function analysis was carried out to asses whether clustering is present in the data. See code for annotations. 
+
+```{r, include = FALSE}
+# Read in data
+oil_spill_sf <- read_sf(here("data", "willamette", "oil_spill_shape", "Oil_Spill_Incident_Tracking_[ds394].shp")) %>%
+  select(date = DATEOFINCI, county = LOCALECOUN)
+
+ca_sf <- read_sf(here("data", "willamette", "ca_counties", "CA_Counties_TIGER2016.shp")) %>%
+  clean_names() %>%
+  select(county_name = name, land_area = aland)
+
+# View CRS info
+oil_spill_sf %>% st_crs()
+ca_sf %>% st_crs()
+# Looks like they are the same! Yay!
+```
+
+### Exploratory Interactive Map
+First, lets see what our data looks like using a basic interactive tmap:
+
+```{r}
+# Create basic interactive exploratory plot using tmap
+tmap_mode(mode = 'view')
+tm_shape(ca_sf) +
+  tm_borders(col = 'black') +
+  tm_shape(oil_spill_sf) +
+  tm_dots()
+```
+
+**Figure 1.** Black points represent oil spills in California in 2008.
+
+### Choropleth Map: Oil Spill Incidents per County
+Make a map that colors counties based on the relative number of oil spills that occurred in each county in 2008.
+
+```{r}
+# Join oil spill and California counties data sets/geometry so we have themn all in one place
+ca_oil_sf <- ca_sf %>%
+  st_join(oil_spill_sf)
+
+# Count number of oil spills per county (exclude counties that have NA values)
+oil_counts_sf <- ca_oil_sf %>%
+  group_by(county_name) %>%
+  summarize(n_records = sum(!is.na(county_name))) 
+
+# Create a choropleth map using geom_sf()
+ggplot(data = oil_counts_sf) +
+  geom_sf(aes(fill = n_records), color = 'white', size = 0.1) +
+  scale_fill_gradientn(colors = c('lightgrey', 'darkorchid', 'navyblue')) +
+  theme_void() +
+  labs(fill = "Number of Oil Spills",
+       title = "CA Oil Spills Per County 2008")
+```
+
+
+**Figure 2.** Oil spills per county in California in 2008. Darker shades of purple represent larger numbers of oil spills.
+
+```{r}
+# Just for fun, make a cool interactive choropleth map using tmap
+tmap_mode(mode = 'view')
+tm_shape(oil_counts_sf) +
+  tm_borders(col = 'black') +
+  tm_fill('n_records', palette = 'BuPu', title = "Number of Oil Spills") 
+```
+
+**Figure 3.** *Same map as above, but interactive:* Oil spills per county in California in 2008. Darker shades of purple represent larger numbers of oil spills.
+
+### Nearest Neighbor G-Function Analysis
+Lets say we want to find out whether or not these oil spill incidents are clustered or random. We can find out using a G-function analysis.
+
+```{r}
+oil_sp <- as(oil_spill_sf, 'Spatial') # Convert to object 'Spatial'
+oil_ppp <- as(oil_sp, 'ppp') # Convert to spatial point pattern
+
+ca_sp <- as(ca_sf, 'Spatial') # Convert to object 'Spatial'
+ca_win <- as(ca_sp, 'owin') # this window will exclude marine oil spills, but there is still enough data to perform G Function analysis without these observations
+
+# Combine as a point pattern object (points + window):
+oil_full <- ppp(oil_ppp$x, oil_ppp$y, window = ca_win) 
+
+# make vector containing values from 0 - 10,000 that will be used to calculate G(r)
+r_vec <- seq(0, 10000, by = 100) 
+```
+
+```{r, message = FALSE, warning = FALSE}
+gfunction <- envelope(oil_full, fun = Gest, r = r_vec, nsim = 20, nrank = 2) # Calculate the actual and theoretical G(r) values, using 20 simulations of CRS for the "theoretical" outcome (the processing time is very low so fewer simulations will run faster)
+
+# Create dataframe to be used for G-function plot
+gfunction_long <- gfunction %>%
+  as.data.frame() %>%
+  pivot_longer(cols = obs:hi, names_to = 'model', values_to = 'g_val')
+```
+
+
+```{r}
+# Create basic graph of G-function analysis
+ggplot(data = gfunction_long, aes(x = r, y = g_val, group = model)) +
+  geom_line(aes(color = model)) +
+  labs(title = "G-function Plot", group = "Model")
+```
+
+**Figure 3.**  G Function Analysis. 
+
+This confirms clustering - our data has a greater proportion of events with nearest neighbor at *smaller distances* compared to a theoretical CSR scenario.
+
+
+### Citation:
+CA DFW Oil Spill Incident Tracking <https://gis.data.ca.gov/datasets/7464e3d6f4924b50ad06e5a553d71086_0/data>
+
+
+
+
+
+
+
+
+
+
+

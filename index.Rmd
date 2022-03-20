@@ -10,8 +10,7 @@ links:
   - label: Email
     url: "mailto:sachikolamen@bren.ucsb.edu"
 output:
-  postcards::jolla
+  postcards::trestles
 ---
 
 I am a masters student at the Bren School of Environmental Science & Management specializing in Coastal Marine Resource Management. I am interested in researching community-based methods of fisheries management and spatial conservation planning. I hope to pursue a career working with coastal communities to help develop incentive- and science-based solutions that empower communities to take control of their resources and economic development.
-

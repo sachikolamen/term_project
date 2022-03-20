@@ -9,10 +9,11 @@ date: 2022-02-21
 output:
   distill::distill_article:
     self_contained: false
+    code_folding: TRUE
 ---
 
-```{r setup, include = TRUE}
-knitr::opts_chunk$set(echo = TRUE, messages = FALSE, warning = FALSE)
+```{r setup, include = FALSE, warning = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(here)
 library(janitor)
@@ -22,72 +23,77 @@ library("png")
 library("grid")
 ```
 
+## **Overview**
+The following code is used to create a visually appealing representation of historic Mono Lake water levels and highlights important environmental and policy milestones (see below). See code for annotations.
+
 ```{r, message = FALSE, warning = FALSE}
-# read in data, remove metadata rows, rename columns
+# Read in and wrangle the data: remove metadata rows, rename columns
 mono <- read_csv(here("data", "mono_lake_annual_levels.csv"), col_names = FALSE, skip = 6) %>%
   rename(year = X1, lake_level = X2, stable_level = X3, volume = X4, surface_area = X5, vert_change = X6)
 
-# import plot background image
+# import a plot background image
 lake_image <- readPNG(here("data", "Mono_Lake_from_Mount_Dana_(1).png"))
+```
 
-# create graph of lake level change from 1850 - 2017, label important milestones
+```{r}
+# Create graph of lake level change from 1850 - 2017, with labels for important milestones
 ggplot(data = mono, aes(x = year, y = lake_level)) +
   scale_fill_continuous(guide = "none") + 
   annotation_custom(rasterGrob(lake_image, 
                                width = unit(1,"npc"), 
                                height = unit(1,"npc")), 
-                    -Inf, Inf, -Inf, Inf) +
+                    -Inf, Inf, -Inf, Inf) + # This section replaces background with image of Mono Lake
   geom_ribbon(data = mono %>% filter(lake_level <= 6392),
               aes(ymin = lake_level, ymax = 6392), 
-              fill = "firebrick1", alpha = 0.5) +
+              fill = "firebrick1", alpha = 0.5) + # This section creates translucent red fill below the graphed line
   geom_line() +
-  geom_hline(yintercept = 6392, linetype = "dashed", color = "red") +
-  geom_hline(yintercept = 6377, linetype = "dashed", color = "orange") +
-  geom_hline(yintercept = 6360, linetype = "dashed", color = "grey") +
+  geom_hline(yintercept = 6392, linetype = "dashed", color = "red") + # add horizontal dashed line indicating stable lake levels
+  geom_hline(yintercept = 6377, linetype = "dashed", color = "orange") + # add horizontal dashed line indicating when level at which land bridges emerge
+  geom_hline(yintercept = 6360, linetype = "dashed", color = "grey") + # add horizongal dashed line indicating lake level when salinity reaches critical concentration
   annotate(
     geom = "curve", x = 1935, y = 6412, xend = 1941, yend = 6417, 
     curvature = .3, arrow = arrow(length = unit(2, "mm")),
     color = "white"
-  ) +
+  ) + # this section adds an arrow for label_1
   annotate(geom = "text", x = 1934, y = 6409.5, label = "DWP begins 
-  diverting water", size = 3, hjust = "right", color = "white") +
-  annotate(geom = "point", x = 1941, y = 6417, color = "yellow", size = 2, alpha = 0.5) +
+  diverting water", size = 3, hjust = "right", color = "white") + # this section adds text for label_1
+  annotate(geom = "point", x = 1941, y = 6417, color = "yellow", size = 2, alpha = 0.5) + # this section adds a marker point for label_1
   annotate(
     geom = "curve", x = 1963, y = 6370, xend = 1979, yend = 6373.4, 
     curvature = .1, arrow = arrow(length = unit(2, "mm")),
     color = "white"
-  ) +
-  annotate(geom = "text", x = 1962, y = 6370, label = "MLC sues DWP", size = 3, hjust = "right", color = "white") +
-  annotate(geom = "point", x = 1979, y = 6373.4, color = "yellow", size = 2, alpha = 0.5) +
+  ) + # this section adds an arrow for label_2
+  annotate(geom = "text", x = 1962, y = 6370, label = "MLC sues DWP", size = 3, hjust = "right", color = "white") + # this section adds text for label_2
+  annotate(geom = "point", x = 1979, y = 6373.4, color = "yellow", size = 2, alpha = 0.5) + # this section adds a marker point for label_2
    annotate(
     geom = "curve", x = 1979, y = 6394.1, xend = 1983, yend = 6378.6, 
     curvature = .3, arrow = arrow(length = unit(2, "mm")),
     color = "white"
-  ) +
+  ) + # this section adds an arrow for label_3
   annotate(geom = "text", x = 1971, y = 6395, label = "Supreme Court rules
-           in favor of MLC", size = 3, hjust = "left", color = "white") +
-  annotate(geom = "point", x = 1983, y = 6378.6, color = "yellow", size = 2, alpha = 0.5) +
+           in favor of MLC", size = 3, hjust = "left", color = "white") + # this section adds text for label_3
+  annotate(geom = "point", x = 1983, y = 6378.6, color = "yellow", size = 2, alpha = 0.5) + # this section adds a marker point for label_3
    annotate(
     geom = "curve", x = 1985, y = 6365, xend = 1994, yend = 6374.6, 
     curvature = .3, arrow = arrow(length = unit(2, "mm")),
     color = "white"
-  ) +
-  annotate(geom = "text", x = 1985, y = 6364.9, label = "Decision 1631", size = 3, hjust = "right", color = "white") +
-  annotate(geom = "point", x = 1994, y = 6374.6, color = "yellow", size = 2, alpha = 0.5) +
-  annotate(geom = "text", x = 1850, y = 6394, label = "Stable Level", size = 3.5, hjust = "left", color ="red") +
+  ) + # this section adds an arrow for label_4
+  annotate(geom = "text", x = 1985, y = 6364.9, label = "Decision 1631", size = 3, hjust = "right", color = "white") + # this section adds text for label_4
+  annotate(geom = "point", x = 1994, y = 6374.6, color = "yellow", size = 2, alpha = 0.5) + # this section adds a marker point for label_4
+  annotate(geom = "text", x = 1850, y = 6394, label = "Stable Level", size = 3.5, hjust = "left", color ="red") + # this section adds text label for the horizontal dashed line indicating stable level
   annotate(
     geom = "curve", x = 2005, y = 6370, xend = 1998, yend = 6384.3, 
     curvature = .1, arrow = arrow(length = unit(2, "mm")),
     color = "white"
-  ) +
-  annotate(geom = "point", x = 1998, y = 6384.3, colour = "yellow", size = 2, alpha = 0.5) +
+  ) + # this section adds an arrow for label_5
+  annotate(geom = "point", x = 1998, y = 6384.3, colour = "yellow", size = 2, alpha = 0.5) + # this section adds a marker for label_5
   annotate(geom = "text", x = 2011, y = 6366.9, label = "Restoration orders
-issued by state", size = 3, hjust = "center", color = "white") +
-  annotate(geom = "text", x = 1850, y = 6379, label = "Land bridges emerge", size = 3.5, hjust = "left", color ="orange") +
-  annotate(geom = "text", x = 1850, y = 6362, label = "Salinity 120 g/L", size = 3.5, hjust = "left", color ="grey") +
+issued by state", size = 3, hjust = "center", color = "white") + # this section adds text for label_5
+  annotate(geom = "text", x = 1850, y = 6379, label = "Land bridges emerge", size = 3.5, hjust = "left", color ="orange") + # this section adds text label to horizontal dashed line for land bridges
+  annotate(geom = "text", x = 1850, y = 6362, label = "Salinity 120 g/L", size = 3.5, hjust = "left", color ="grey") + # this section adds a text label to the horizontal dashed line for salinity concentrations
     labs(x = "Year",
          y = "Lake Level (ft above sea level)",
-         title = "Mono Lake level changes (1850 - 2017)")
+         title = "Mono Lake level changes (1850 - 2017)") # this section creates axis titles and main title
   
 
 ```

@@ -8,6 +8,7 @@ author:
 output:
   distill::distill_article:
     self_contained: false
+    code_folding: TRUE
 ---
 
 ```{r setup, include= FALSE, message = FALSE, warning = FALSE}
@@ -23,9 +24,9 @@ library(kableExtra)
 
 ### **Overview**
 
-This code uses non linear least squares (NLS) to estimate parameters of a length to weight model (see below) for lizard populations in New Mexico. \begin{equation}W = a(SVL)^b\end{equation} Where W = weight (g), SVL = snout to vent length (mm), a and b are parameters that need to be fitted. Estimated parameters were tested on general predictive ability across all lizards regardless of sex, species, or age and species specific predictive ability using male Cnemidophorus tigrisatus as the species of interest. Data used in this analysis comes from lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site from 1989 - 2006.
+This code uses non linear least squares (NLS) to estimate parameters of a length to weight model (see below) for lizard populations in New Mexico. \begin{equation}W = a(SVL)^b\end{equation} Where W = weight (g), SVL = snout to vent length (mm), a and b are parameters that need to be fitted. Estimated parameters were tested on general predictive ability across all lizards regardless of sex, species, or age and species specific predictive ability using male Cnemidophorus tigrisatus as the species of interest. Data used in this analysis comes from lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site from 1989 - 2006. See code for annotations.
 
-```{r}
+```{r, include = FALSE}
 # Read in data
 lizards <- read_csv("/Users/sachiko/Desktop/BREN/Winter Quarter/ESM 244 - Adv. Data Analysis/HW/Assignment_2/data/lizard.csv")
 
@@ -39,10 +40,10 @@ lizards_clean$sex = tolower(lizards_clean$sex)
 
 ### **General Model**
 
-The following section estimates the parameters of a length to weight model for the general population of lizards, regardless of sex or species.
+To start, let's estimate the parameters of a length to weight model for the general population of lizards, regardless of sex or species.
 
 ```{r, message = FALSE}
-# create function
+# We need to create a function to be used for NLS
 lizards_model <- function(a, SVL, b) {
   W = a*SVL^b
   return(W)
@@ -74,6 +75,7 @@ nls_tidy$p.value <- ifelse(nls_tidy$p.value <0.001, paste("<0.001"))
 ```
 
 ```{r}
+# Create visually appealing table for knitted document using kableExtra
 nls_tidy %>%
   select(-statistic) %>%
   kable(col.names = c("Parameter", "Estimate", "Std. Error", "P-Value"),
@@ -86,7 +88,7 @@ nls_tidy %>%
 # Find model predicted values
 predicted_weight <- predict(lizard_nls)
 
-# Create new dataframe that binds predictions to main dataframe
+# Create a new dataframe that binds predictions to the main dataframe
 lizards_final <- data.frame(lizards_clean, predicted_weight) %>%
   mutate(sex = case_when(sex == "f" ~ "Female",
             sex == "m" ~ "Male"))
@@ -109,7 +111,7 @@ From Figure 1, we see that this general model predicts lizard weight relatively 
 
 ### **Species-specific model**
 
-The following section estimates the parameters of a length to weight model for a male Western Whiptail population of lizards. Then a visual comparison of general and species-specific models are shown and RMSE values are calculated and compared.
+Lets generate the parameters of a length to weight model for a male Western Whiptail population of lizards. Then we can do a visual comparison of general and species-specific models. We can also calculate and compare RMSE values to see which model is a better fit.
 
 ```{r}
 # Filter dataset for male Western Whiptail lizards (Cnemidophorus tigrisatus)
